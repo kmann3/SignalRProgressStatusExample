@@ -39,11 +39,10 @@ namespace SignalR_ProgressStatusExample.Pages
             ReportAndSleep("Reset", 0, ConnectionId, 0);
         }
 
-        private void ReportAndSleep(string message, int pct, string connectionId, int sleepFor)
+        private void ReportAndSleep(string message, int _pct, string connectionId, int sleepFor)
         {
-            var info = new ProgressInfo() { Status = message, Percent = pct };
-            //_progressHubContext.Clients.Client(connectionId).ReportProgress(info);
-            _progressHubContext.Clients.All.ReportProgress(info);
+            var info = new ProgressInfo() { message = message, pct = _pct };
+            _progressHubContext.Clients.Client(connectionId).ReportProgress(info);
             Thread.Sleep(sleepFor);
         }
     }

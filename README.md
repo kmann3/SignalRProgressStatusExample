@@ -9,7 +9,7 @@ Most of this was taken and updated from: https://github.com/endintiers/SignalR-A
 ## Begin
 
 - Create a ASP NET Core 3.1 project. Name it something, such as "MyExampleProject". Go with all defaults.
-- Install Signal by going to the Package Manager and running the following command:
+- Install Signal by going to the Package Manager and running the following command: -- IS THIS EVEN NEEDED? (TBI)
   ```CSharp
   Install-Package Microsoft.AspNet.SignalR
   ```
@@ -54,7 +54,7 @@ app.UseEndpoints(endpoints =>
             endpoints.MapHub<ProgressHub>("/myhub"); // Add this line
         });
   ```
-- Now go to wwroot older and expand it. Right-click on lib and select "Add" and then select "Client-Side Library..." and type in "microsoft-signalr" using the provider "cdnjs". It will likely have some version info that goes along with it such as.. "microsoft-signalr@5.0.00-preview.2.20167.3" or something like that. We now open Pages/Shared/_Layout.cshtml and add a reference to this new package. The easiest way to do this is to open the _Layout.cshtml file and drag the wwwroot/lib/microsoft-signalr/signalr.js in it in the script section.
+- Now go to wwroot older and expand it. Right-click on lib and select "Add" and then select "Client-Side Library..." and type in "microsoft-signalr" using the provider "unpkg". It will likely have some version info that goes along with it such as.. "@microsoft/signalr@latest" or something like that. We now open Pages/Shared/_Layout.cshtml and add a reference to this new package. The easiest way to do this is to open the _Layout.cshtml file and drag the wwwroot/lib/microsoft-signalr/signalr.js in it in the script section.
 - Now we open /Index.cshtml and add the following into it at the bottom:
 ```JavaScript
 @section Scripts {

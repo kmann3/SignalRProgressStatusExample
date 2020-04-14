@@ -5,8 +5,8 @@ namespace SignalR_ProgressStatusExample
 {
     public class ProgressInfo
     {
-        public string Status { get; set; }
-        public int Percent { get; set; }
+        public string message { get; set; }
+        public int pct { get; set; }
     }
 
     public interface IProgressHub

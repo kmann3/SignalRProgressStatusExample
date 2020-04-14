@@ -34,7 +34,8 @@
 
     <div id="msg-row" class="row" style="padding-top: 8px">
         <div class="col-lg-12 col-sm-12">
-            <span id="msg" class="text-success">@Model.Message</span>
+            <div>@Model.Message</div><br />
+            <div><span id="msg">Z</span>
         </div>
     </div>
 
@@ -47,9 +48,12 @@
             console.log(info.message + ' - ' + info.pct + '%');
             reportProgress(info);
         });
+
         connection.start();
 
         function reportProgress(info) {
+            document.getElementById("msg").textContent = info.message;
+
             if (info.pct < 1 || info.message.toLowerCase() == 'reset') {
                 $('#pbar').css('width', '0%')
                     .attr('aria-valuenow', 0).text('');
