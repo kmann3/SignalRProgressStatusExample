@@ -8,3 +8,64 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<div class="container">
+    <div class="row vertical-align" style="padding-top: 60px">
+
+        <div class="col-lg-2 col-md-2 col-sm-2">
+            <form asp-page-handler="OnPost" data-ajax="true" data-ajax-method="POST">
+                <input id="connectionId" type="hidden" asp-for="ConnectionId" />
+                <button id="progressButton" class="btn btn-primary"
+                        data-loading-text="<i class='fa fa-spinner fa-spin'></i>&nbsp;Working..."
+                        onclick="getConnectionIdAndReportStart();"
+                        type="submit">
+                    Progress
+                </button>
+            </form>
+        </div>
+
+        <div class="col-lg-10 col-md-10 col-sm-10" style="height:20px">
+            <div id="pbar" class="progress progress-bar" role="progressbar" aria-valuenow="0"
+                 aria-valuemin="0" aria-valuemax="100">
+            </div>
+        </div>
+
+    </div>
+
+    <div id="msg-row" class="row" style="padding-top: 8px">
+        <div class="col-lg-12 col-sm-12">
+            <span id="msg" class="text-success">@Model.Message</span>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        var connection = new signalR.HubConnectionBuilder().withUrl("/myhub").build();
+        connection.on("reportprogress", info => {
+            console.log(info.message + ' - ' + info.pct + '%');
+            reportProgress(info);
+        });
+        connection.start();
+
+        function reportProgress(info) {
+            if (info.pct < 1 || info.message.toLowerCase() == 'reset') {
+                $('#pbar').css('width', '0%')
+                    .attr('aria-valuenow', 0).text('');
+                $('#progressButton').button('reset');
+            }
+            else {
+                $('#pbar').css('width', info.pct + '%')
+                    .attr('aria-valuenow', info.pct).text(info.message);
+                $('#progressButton').button('loading');
+            }
+        }
+
+        function getConnectionIdAndReportStart() {
+            $('#connectionId').val(connection.connectionId);
+            var info = { message: 'Starting Out', pct: 10 };
+            connection.invoke('reportprogress', info);
+        }
+    </script>
+}
