@@ -35,17 +35,15 @@
     <div id="msg-row" class="row" style="padding-top: 8px">
         <div class="col-lg-12 col-sm-12">
             <div>@Model.Message</div><br />
-            <div><span id="msg">Z</span>
+            <span id="msg">Z</span>
         </div>
     </div>
-
 </div>
 
 @section Scripts {
     <script>
         var connection = new signalR.HubConnectionBuilder().withUrl("/myhub").build();
         connection.on("reportprogress", info => {
-            console.log(info.message + ' - ' + info.pct + '%');
             reportProgress(info);
         });
 
@@ -54,21 +52,21 @@
         function reportProgress(info) {
             document.getElementById("msg").textContent = info.message;
 
-            if (info.pct < 1 || info.message.toLowerCase() == 'reset') {
+            if (info.percent < 1 || info.status.toLowerCase() == 'reset') {
                 $('#pbar').css('width', '0%')
                     .attr('aria-valuenow', 0).text('');
                 $('#progressButton').button('reset');
             }
             else {
-                $('#pbar').css('width', info.pct + '%')
-                    .attr('aria-valuenow', info.pct).text(info.message);
+                $('#pbar').css('width', info.percent + '%')
+                    .attr('aria-valuenow', info.percent).text(info.status);
                 $('#progressButton').button('loading');
             }
         }
 
         function getConnectionIdAndReportStart() {
             $('#connectionId').val(connection.connectionId);
-            var info = { message: 'Starting Out', pct: 10 };
+            var info = { status: 'Starting Out', percent: 10 };
             connection.invoke('reportprogress', info);
         }
     </script>

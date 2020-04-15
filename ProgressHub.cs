@@ -3,20 +3,20 @@ using System.Threading.Tasks;
 
 namespace SignalR_ProgressStatusExample
 {
-    public class ProgressInfo
+    public class Progress
     {
-        public string message { get; set; }
-        public int pct { get; set; }
+        public string status { get; set; }
+        public int percent { get; set; }
     }
 
     public interface IProgressHub
     {
-        Task ReportProgress(ProgressInfo info);
+        Task ReportProgress(Progress info);
     }
 
     public class ProgressHub : Hub<IProgressHub>
     {
-        public Task ReportProgress(ProgressInfo info)
+        public Task ReportProgress(Progress info)
         {
             return Clients.Client(this.Context.ConnectionId).ReportProgress(info);
         }

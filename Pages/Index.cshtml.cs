@@ -36,12 +36,16 @@ namespace SignalR_ProgressStatusExample.Pages
             // 10% report is done in js code...
             Thread.Sleep(1000);
             ReportAndSleep("Relaxing Splines", 20, ConnectionId, 1000);
+            ReportAndSleep("Generating Antibodies", 40, ConnectionId, 1000);
+            ReportAndSleep("Improving Tranogs", 60, ConnectionId, 1000);
+            ReportAndSleep("Acclimating Redroux", 80, ConnectionId, 1000);
+            ReportAndSleep("Complete", 100, ConnectionId, 1000);
             ReportAndSleep("Reset", 0, ConnectionId, 0);
         }
 
         private void ReportAndSleep(string message, int _pct, string connectionId, int sleepFor)
         {
-            var info = new ProgressInfo() { message = message, pct = _pct };
+            var info = new Progress() { status = message, percent = _pct };
             _progressHubContext.Clients.Client(connectionId).ReportProgress(info);
             Thread.Sleep(sleepFor);
         }
